@@ -11,7 +11,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/mac-book-2.jpg'),
       require('../assets/images/mac-book-3.jpg'),
     ],
-    price: 899.99,
+    price: 200000,
     category: {
       imageUrl: require('../assets/images/mac-book-1.jpg'),
       name: 'Laptops',
@@ -28,7 +28,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/Lenovo-1.jpg'),
       require('../assets/images/Lenovo-2.jpg'),
     ],
-    price: 1099.99,
+    price: 230000,
     category: {
       imageUrl: require('../assets/images/mac-book-1.jpg'),
       name: 'Laptops',
@@ -45,7 +45,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/i-phone-2.jpg'),
       require('../assets/images/i-phone-3.jpg'),
     ],
-    price: 999.99,
+    price: 125000,
     category: {
       imageUrl: require('../assets/images/i-phone-1.jpg'),
       name: 'Phones',
@@ -62,7 +62,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/samsung-1.jpg'),
       require('../assets/images/samsung-2.jpg'),
     ],
-    price: 799.99,
+    price: 160000,
     category: {
       imageUrl: require('../assets/images/i-phone-1.jpg'),
       name: 'Phones',
@@ -79,7 +79,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/head-set-1.jpg'),
       require('../assets/images/head-set-2.jpg'),
     ],
-    price: 499.99,
+    price: 5000,
     category: {
       imageUrl: require('../assets/images/head-set-1.jpg'),
       name: 'Accessories',
@@ -97,7 +97,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/ps-5-2.jpg'),
       require('../assets/images/ps-5-3.jpg'),
     ],
-    price: 699.99,
+    price: 25000,
     category: {
       imageUrl: require('../assets/images/ps-5-1.jpg'),
       name: 'Gaming',
@@ -114,7 +114,7 @@ export const PRODUCTS: Product[] = [
       require('../assets/images/nintendo-switch-1.jpg'),
       require('../assets/images/nintendo-switch-2.jpg'),
     ],
-    price: 299.99,
+    price: 8000,
     category: {
       imageUrl: require('../assets/images/ps-5-1.jpg'),
       name: 'Gaming',
