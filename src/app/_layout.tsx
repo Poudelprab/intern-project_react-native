@@ -1,9 +1,12 @@
 import { Stack } from "expo-router";
+import { ToastProvider } from "react-native-toast-notifications";
 
 export default function RootLayout()
 {
     return (
-    <Stack>
+   <ToastProvider>
+
+<Stack>
         <Stack.Screen name='(shop)' 
         options={{headerShown:false,title:'Shop'}}
         />
@@ -21,5 +24,6 @@ export default function RootLayout()
         />
 
     </Stack>
+   </ToastProvider>
     )
 }
