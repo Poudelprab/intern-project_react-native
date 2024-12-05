@@ -53,6 +53,19 @@ const ProductDetails = () => {
       };
     
       const addToCart = () => {
+        addItem({
+          id: product.id,
+          title: product.title,
+          heroImage: product.heroImage.toString(),
+          price: product.price,
+          quantity,
+          maxQuantity: product.maxQuantity,
+        });
+        toast.show('Added to cart', {
+          type: 'success',
+          placement: 'top',
+          duration: 1500,
+        });
        
       };
 
@@ -87,6 +100,37 @@ const ProductDetails = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.imagesContainer}
         />
+
+<View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.quantityButton}
+            onPress={decreaseQuantity}
+            disabled={quantity <= 1}
+          >
+            <Text style={styles.quantityButtonText}>-</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.quantity}>{quantity}</Text>
+
+          <TouchableOpacity
+            style={styles.quantityButton}
+            onPress={increaseQuantity}
+            disabled={quantity >= product.maxQuantity}
+          >
+            <Text style={styles.quantityButtonText}>+</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.addToCartButton,
+              { opacity: quantity === 0 ? 0.5 : 1 },
+            ]}
+            onPress={addToCart}
+            disabled={quantity === 0}
+          >
+            <Text style={styles.addToCartText}>Add to Cart</Text>
+          </TouchableOpacity>
+        </View>
 
 
 
