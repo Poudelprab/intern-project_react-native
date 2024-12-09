@@ -2,28 +2,30 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { PRODUCTS } from '../../../assets/products'
 import {ProductListItem} from "../../components/product-list-item";
 import { ListHeader } from '../../components/list-header';
+import Auth from '../auth';
 
 
 const Home = () => {
   return (
-    <View>
-      <FlatList 
-      data = {PRODUCTS} 
-      renderItem={({ item }) =>
-        <ProductListItem product={item} />
+    
+     <View>
+       <FlatList 
+       data = {PRODUCTS} 
+       renderItem={({ item }) =>
+         <ProductListItem product={item} />
       
-     } 
-      keyExtractor={item=> item.id.toString()}
-      numColumns={2}
-      ListHeaderComponent={ListHeader}
-      contentContainerStyle={styles.flatListContent}
-      columnWrapperStyle={styles.flatListColumn}
-      style={{paddingHorizontal: 10, paddingVertical: 5 }}
+      } 
+       keyExtractor={item=> item.id.toString()}
+       numColumns={2}
+       ListHeaderComponent={ListHeader}
+       contentContainerStyle={styles.flatListContent}
+       columnWrapperStyle={styles.flatListColumn}
+       style={{paddingHorizontal: 10, paddingVertical: 5 }}
 
-      />
-    </View>
-  )
-}
+       />
+     </View>
+  );
+};
 
 export default Home
 
