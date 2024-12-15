@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export default function RootLayout({children,}: Readonly<{
+export default function AdminLayout({children,}: Readonly<{
     children: ReactNode;
 }>) {
 
