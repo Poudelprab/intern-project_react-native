@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "@/styles/globals.css";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner"
 
 
 
@@ -22,9 +24,18 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={inter.className}>
-          
+            <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            
+            <main>{children}</main>
+            <Toaster richColors/>
+            </ThemeProvider>
       
-        {children}
+        
       </body>
     </html>
   );
