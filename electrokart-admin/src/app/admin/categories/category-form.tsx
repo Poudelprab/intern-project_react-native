@@ -26,12 +26,13 @@ export const CategoryForm = ({
   const isSubmitting = form.formState.isSubmitting;
 
   useEffect(() => {
-    if (defaultValues) {
+    if (defaultValues && typeof window !== 'undefined') {
       form.reset(defaultValues);
     } else {
       form.reset({ name: '', image: undefined });
     }
   }, [defaultValues, form]);
+  
 
   return (
     <Form {...form}>
