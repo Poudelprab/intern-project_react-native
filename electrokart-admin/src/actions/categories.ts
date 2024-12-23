@@ -9,9 +9,9 @@ import slugify from 'slugify';
 
 export const getCategoriesWithProducts =
   async (): Promise<CategoriesWithProductsResponse> => {
-    const supabase = createClient();
+    const supabase = await createClient();
     
-    const { data, error } = await (await supabase)
+    const { data, error } = await supabase
     
       .from('category')
       .select('* , products:product(*)')
@@ -24,7 +24,7 @@ export const getCategoriesWithProducts =
 
 
   export const imageUploadHandler = async (formData: FormData) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     if (!formData) return;
   
     const fileEntry = formData.get('file');
@@ -34,7 +34,7 @@ export const getCategoriesWithProducts =
     const fileName = fileEntry.name;
   
     try {
-      const { data, error } = await (await supabase).storage
+      const { data, error } = await supabase.storage
         .from('app-images')
         .upload(fileName, fileEntry, {
           cacheControl: '3600',
@@ -48,7 +48,7 @@ export const getCategoriesWithProducts =
   
       const {
         data: { publicUrl },
-      } = await (await supabase).storage.from('app-images').getPublicUrl(data.path);
+      } =  supabase.storage.from('app-images').getPublicUrl(data.path);
   
       return publicUrl;
     } catch (error) {

@@ -71,11 +71,13 @@ export const CategoryTableRow = ({
         <TableCell className='md:table-cell'>
           {category.products && category.products.length > 0 ? (
             <Dialog>
-              <DialogTrigger>
-                {category.products
-                  .slice(0, 2)
-                  .map(product => product.title)
-                  .join(', ')}
+              <DialogTrigger asChild>
+                <span>
+                  {category.products
+                    .slice(0, 2)
+                    .map(product => product.title)
+                    .join(', ')}
+                </span>
               </DialogTrigger>
               <DialogContent>
                 <DialogTitle className='sr-only'>
@@ -115,7 +117,7 @@ export const CategoryTableRow = ({
         </TableCell>
         <TableCell>
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <Button size='icon' variant='ghost'>
                 <MoreHorizontal className='h-4 w-4' />
                 <span className='sr-only'>Open menu</span>

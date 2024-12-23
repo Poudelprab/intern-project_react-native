@@ -32,7 +32,6 @@ export const CategoryForm = ({
       form.reset({ name: '', image: undefined });
     }
   }, [defaultValues, form]);
-  
 
   return (
     <Form {...form}>
