@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -38,9 +37,9 @@ import { CategoriesWithProductsResponse } from '@/app/admin/categories/categorie
 import { CategoryForm } from '@/app/admin/categories/category-form';
 import {
   createCategory,
-  
+  deleteCategory,
   imageUploadHandler,
-  
+  updateCategory,
 } from '@/actions/categories';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -60,6 +59,7 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
     defaultValues: {
       name: '',
       image: undefined,
+      intent: 'create', // Explicitly set default intent
     },
   });
 
@@ -69,6 +69,12 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
     CreateCategorySchema
   > = async data => {
     const { image, name, intent = 'create' } = data;
+
+    if (!['create', 'update'].includes(intent)) {
+      console.error('Invalid intent');
+      toast.error('An error occurred. Please try again.');
+      return;
+    }
 
     const handleImageUpload = async () => {
       const uniqueId = uuid();
@@ -80,42 +86,40 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
       return imageUploadHandler(formData);
     };
 
-    switch (intent) {
-      case 'create': {
-        const imageUrl = await handleImageUpload();
-
-        if (imageUrl) {
-          await createCategory({ imageUrl, name });
-          form.reset();
-          router.refresh();
-          setIsCreateCategoryModalOpen(false);
-          toast.success('Category created successfully');
-        }
-        break;
+    if (intent === 'create') {
+      const imageUrl = await handleImageUpload();
+      if (imageUrl) {
+        await createCategory({ imageUrl, name });
+        form.reset();
+        router.refresh();
+        setIsCreateCategoryModalOpen(false);
+        toast.success('Category created successfully');
       }
-      case 'update': {
-        if (image && currentCategory?.slug) {
-          const imageUrl = await handleImageUpload();
-
-         
-        }
-      }
-
-      default:
-        console.error('Invalid intent');
+    } else if (intent === 'update' && currentCategory?.slug) {
+      const imageUrl = image ? await handleImageUpload() : '';
+      await updateCategory({
+        imageUrl: imageUrl || '',
+        name,
+        slug: currentCategory.slug,
+        intent: 'update',
+      });
+      form.reset();
+      router.refresh();
+      setIsCreateCategoryModalOpen(false);
+      toast.success('Category updated successfully');
     }
   };
 
   const deleteCategoryHandler = async (id: number) => {
-    
+    await deleteCategory(id);
     router.refresh();
     toast.success('Category deleted successfully');
   };
 
   return (
-    <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
-      <div className='flex items-center my-10'>
-        <div className='ml-auto flex items-center gap-2'>
+    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <div className="flex items-center my-10">
+        <div className="ml-auto flex items-center gap-2">
           <Dialog
             open={isCreateCategoryModalOpen}
             onOpenChange={() =>
@@ -124,22 +128,24 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
           >
             <DialogTrigger asChild>
               <Button
-                size='sm'
-                className='h-8 gap-1'
+                size="sm"
+                className="h-8 gap-1"
                 onClick={() => {
                   setCurrentCategory(null);
                   setIsCreateCategoryModalOpen(true);
                 }}
               >
-                <PlusCircle className='h-3.5 w-3.5' />
-                <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Add Category
                 </span>
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create Category</DialogTitle>
+                <DialogTitle>
+                  {currentCategory ? 'Edit Category' : 'Create Category'}
+                </DialogTitle>
               </DialogHeader>
               <CategoryForm
                 form={form}
@@ -151,23 +157,23 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
         </div>
       </div>
 
-      <Card className='overflow-x-auto'>
+      <Card className="overflow-x-auto">
         <CardHeader>
           <CardTitle>Categories</CardTitle>
         </CardHeader>
 
         <CardContent>
-          <Table className='min-w-[600px]'>
+          <Table className="min-w-[600px]">
             <TableHeader>
               <TableRow>
-                <TableHead className='w-[100px] sm:table-cell'>
-                  <span className='sr-only'>Image</span>
+                <TableHead className="w-[100px] sm:table-cell">
+                  <span className="sr-only">Image</span>
                 </TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead className='md:table-cell'>Created at</TableHead>
-                <TableHead className='md:table-cell'>Products</TableHead>
+                <TableHead className="md:table-cell">Created at</TableHead>
+                <TableHead className="md:table-cell">Products</TableHead>
                 <TableHead>
-                  <span className='sr-only'>Actions</span>
+                  <span className="sr-only">Actions</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -178,7 +184,7 @@ const CategoriesPageComponent: FC<Props> = ({ categories }) => {
                   category={category}
                   setCurrentCategory={setCurrentCategory}
                   setIsCreateCategoryModalOpen={setIsCreateCategoryModalOpen}
-                  
+                  deleteCategoryHandler={deleteCategoryHandler}
                 />
               ))}
             </TableBody>
