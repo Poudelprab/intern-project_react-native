@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from 'expo-secure-store';
 import * as aesjs from 'aes-js';
 import 'react-native-get-random-values';
+import { Database } from "../types/database.types";
 
 const supabaseUrl = "https://khrqmmwagoomfgrdhtrh.supabase.co"
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtocnFtbXdhZ29vbWZncmRodHJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM3NTY3NTEsImV4cCI6MjA0OTMzMjc1MX0.Ykua0HDwXWpY2OaI45_WtGFFOZDAiU-5pGCBFWFRz2Y"
@@ -56,7 +57,7 @@ class LargeSecureStore {
 
 
 
- export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: new LargeSecureStore(),
     autoRefreshToken: true,

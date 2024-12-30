@@ -10,6 +10,7 @@ import {
   } from 'react-native';
 import { useCartStore } from '../store/cart-store';
 import { StatusBar } from 'expo-status-bar';
+import { createOrder, createOrderItem } from '../api/api';
 
 type CartItemType = {
   id: number;
@@ -68,12 +69,39 @@ const CartItem = ({
 
 export default function Cart()
 {
-    const {items, removeItem, incrementItem, decrementItem, getTotalPrice} = useCartStore();
+    const {items, removeItem, incrementItem, decrementItem, getTotalPrice,resetCart} = 
+    useCartStore();
 
-    const handleCheckout = () =>
-    {
-        Alert.alert("Proceeding to checkout", `Total amount: Rs ${getTotalPrice()}`)
-    }
+    const { mutateAsync: createSupabaseOrder } = createOrder();
+    const { mutateAsync: createSupabaseOrderItem } = createOrderItem();
+
+    const handleCheckout = async () => {
+      const totalPrice = parseFloat(getTotalPrice());
+    
+      if (isNaN(totalPrice) || totalPrice <= 0) {
+        Alert.alert('Error', 'Invalid total price');
+        return;
+      }
+    
+      try {
+        const orderData = await createSupabaseOrder({ totalPrice });
+    
+        await createSupabaseOrderItem(
+          items.map((item) => ({
+            orderId: orderData.id,
+            productId: item.id,
+            quantity: item.quantity,
+          }))
+        );
+    
+        Alert.alert('Success', 'Order created successfully');
+        resetCart();
+      } catch (error) {
+        console.error('Error creating order:', error);
+        Alert.alert('Error', 'Failed to create order');
+      }
+    };
+    
     return(
         <View style={styles.container}>
             <StatusBar style={Platform.OS==='android' ? 'light' : 'auto'}/>
