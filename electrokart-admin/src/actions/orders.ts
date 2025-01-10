@@ -2,6 +2,7 @@
 
 import { createClient } from '@/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { sendNotification } from './notification';
 
 
 export const getOrdersWithProducts = async () => {
@@ -25,11 +26,15 @@ export const updateOrderStatus = async (orderId: number, status: string) => {
 
   if (error) throw new Error(error.message);
 
+  
+
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
   const userId = session?.user.id!;
+
+  await sendNotification(userId, status + ' 🚀');
 
  
 

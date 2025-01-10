@@ -14,6 +14,7 @@ import {
 import { supabase } from '../lib/supabase';
 import { Toast } from 'react-native-toast-notifications';
 import { useAuth } from '../providers/auth-provider';
+import React from 'react';
 
 
   const authSchema = zod.object({

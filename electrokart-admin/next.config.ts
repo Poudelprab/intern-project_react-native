@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
       protocol: "https",
       hostname:"khrqmmwagoomfgrdhtrh.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname:"www.facebook.com",
+        },
+      
 
     ],
 },

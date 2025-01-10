@@ -94,7 +94,7 @@ export const getMyOrders = () => {
   });
 };
 
-export const createOrder = () => {
+export const createOrder = (p0: { totalPrice: number; }) => {
   const {
     user: { id },
   } = useAuth();
