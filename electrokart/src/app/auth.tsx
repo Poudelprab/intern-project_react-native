@@ -62,7 +62,7 @@ export default function Auth()
         if (error) {
           alert(error.message);
         } else {
-          Toast.show('Signed up successfully', {
+          Toast.show('Signed u successfully', {
             type: 'success',
             placement: 'top',
             duration: 1500,
